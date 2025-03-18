@@ -3,86 +3,36 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ввод данных</title>
-    <link rel="stylesheet" href="styles-first-page.css">
+    <title>Доступ к сайту</title>
+    <link rel="stylesheet" href="passwordweb.css">
 </head>
 <body>
-    <div class="form-container">
-        <h1>Введите данные для билета</h1>
-
-        <label for="transport">Тип транспорта:</label>
-        <select id="transport">
-            <option value="Автобус">Автобус</option>
-            <option value="Троллейбус">Троллейбус</option>
-        </select>
-
-        <label for="route">Номер маршрута:</label>
-        <select id="route">
-            <!-- Динамически изменяемые маршруты -->
-        </select>
-
-        <label for="vehicleNumber">Номер Т/С:</label>
-        <input type="text" id="vehicleNumber" placeholder="Введите номер Т/С">
-
-        <button id="save">Сохранить</button>
-
-        <footer>© 2025 Билетная система</footer>
+    <div class="container">
+        <div class="form-container">
+            <h1>Введите код доступа</h1>
+            <input type="text" id="accessCode" placeholder="Введите код" class="input-field">
+            <button id="submitCode" class="submit-btn">Подтвердить</button>
+            <p id="error-message" class="error-message">Неверный код. Попробуйте снова.</p>
+        </div>
     </div>
 
-    
-
     <script>
-        // Обработчик изменения типа транспорта
-        document.getElementById("transport").addEventListener("change", function() {
-            const transport = this.value;
-            const routeSelect = document.getElementById("route");
+        // Массив с кодами доступа
+        const validCodes = [
+            "nLEVCUj","gUNKiT8","mAq30Of","RgHESle","ZBkXUNX","79up6y6","qZi2Q8d","sBytpMW","B3uyL9g","xdFmOV0","tmd97jV","jXglW4I","8IXfkWJ","FcDhTmD","H5zC7sL","x07ID1y","qHQLa1n","dVUEWKM","7cirZTo","juSJYr4","YDMPNwN","QrLvOc9","3YcCXbS","4rJbppu","AvTaXfV","YqE2pNQ","zdCwlym","XO4W4Bs","az2KF0i","qXfHTOa","Er2lRjx","stla8vy","6esI3r9","teU5Y5E","exESJco","Qh8ryYk","Boz3F9g","DF3vat5","nZhtaOZ","BrhosHf","9Tku01m","BCsNerW","1PGphsL","XtIs3n4","1FQAWQg","Sdqzlkt","Sda32fn","VeUi9zp","qalrLam","FWNeVwm"
+        ];
 
-            // Очищаем текущие опции маршрутов
-            routeSelect.innerHTML = "";
+        document.getElementById("submitCode").addEventListener("click", function() {
+            const enteredCode = document.getElementById("accessCode").value;
+            const errorMessage = document.getElementById("error-message");
 
-            let routes = [];
-            if (transport === "Автобус") {
-                routes = ['1', '10А', '5', '11', '18', '33Р'];
-            } else if (transport === "Троллейбус") {
-                routes = ['3', '4', '6', '10'];
+            if (validCodes.includes(enteredCode)) {
+                // Если код правильный, перенаправляем пользователя на сайт
+                window.location.href = "main.html"; // Замените на адрес вашего сайта
+            } else {
+                // Если код неправильный, показываем ошибку
+                errorMessage.style.display = "block";
             }
-
-            // Добавляем новые опции маршрутов
-            routes.forEach(route => {
-                const option = document.createElement("option");
-                option.value = route;
-                option.textContent = route;
-                routeSelect.appendChild(option);
-            });
-        });
-
-        // Инициализация списка маршрутов на основе начального значения
-        document.addEventListener("DOMContentLoaded", function() {
-            document.getElementById("transport").dispatchEvent(new Event("change"));
-        });
-
-        // Обработчик нажатия на кнопку "Сохранить"
-        document.getElementById("save").addEventListener("click", function() {
-            const transport = document.getElementById("transport").value;
-            const route = document.getElementById("route").value;
-            const vehicleNumber = document.getElementById("vehicleNumber").value;
-
-            // Проверяем, чтобы поле "Номер Т/С" не было пустым
-            if (!vehicleNumber.trim()) {
-                alert("Пожалуйста, введите номер Т/С.");
-                return;
-            }
-
-            const startTime = new Date().toISOString();  // Записываем время, когда пользователь сохранил данные
-
-            // Сохраняем данные в localStorage
-            localStorage.setItem("transport", transport);
-            localStorage.setItem("route", route);
-            localStorage.setItem("vehicleNumber", vehicleNumber);
-            localStorage.setItem("startTime", startTime);
-
-            // Перенаправляем на страницу с билетом
-            window.location.href = "newTicketPage.html";
         });
     </script>
 </body>
